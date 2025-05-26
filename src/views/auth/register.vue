@@ -48,7 +48,7 @@ const handleRegister = (e: Event) => {
     <div class="col-md-6">
       <div class="card border-0 rounded-4 shadow-sm">
         <div class="card-body">
-          <h4 class="fw-bold text-center">REGISTER</h4>
+          <h4 class="fw-bold text-center">Register</h4>
           <hr />
           <form @submit.prevent="handleRegister">
             <div class="row">
@@ -63,7 +63,7 @@ const handleRegister = (e: Event) => {
                   />
                   <div
                     v-if="errors.Name"
-                    class="alert alert-danger mt-2 rounded-4"
+                    class="text-danger p-2"
                   >
                     {{ errors.Name }}
                   </div>
@@ -80,7 +80,7 @@ const handleRegister = (e: Event) => {
                   />
                   <div
                     v-if="errors.Username"
-                    class="alert alert-danger mt-2 rounded-4"
+                    class="text-danger p-2"
                   >
                     {{ errors.Username }}
                   </div>
@@ -100,7 +100,7 @@ const handleRegister = (e: Event) => {
                   />
                   <div
                     v-if="errors.Email"
-                    class="alert alert-danger mt-2 rounded-4"
+                    class="text-danger p-2"
                   >
                     {{ errors.Email }}
                   </div>
@@ -117,7 +117,7 @@ const handleRegister = (e: Event) => {
                   />
                   <div
                     v-if="errors.Password"
-                    class="alert alert-danger mt-2 rounded-4"
+                    class="text-danger p-2"
                   >
                     {{ errors.Password }}
                   </div>
@@ -130,7 +130,7 @@ const handleRegister = (e: Event) => {
               class="btn btn-primary w-100 rounded-4"
               :disabled="isPending"
             >
-              {{ isPending ? "Loading..." : "REGISTER" }}
+              {{ isPending ? "Loading..." : "Register" }}
             </button>
           </form>
         </div>
