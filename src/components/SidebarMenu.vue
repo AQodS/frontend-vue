@@ -1,4 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useLogout } from '../composables/auth/useLogout';
+const logout = useLogout();
+</script>
 
 <template>
   <div class="card border-0 rounded-4 shadow-sm">
@@ -17,7 +20,7 @@
         >
           Users
         </router-link>
-        <a href="#" class="list-group-item list-group-item-action">Logout</a>
+        <a href="#" @click="logout" class="list-group-item list-group-item-action">Logout</a>
       </div>
     </div>
   </div>
