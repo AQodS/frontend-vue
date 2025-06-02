@@ -1,6 +1,8 @@
 <script setup lang="ts">
 //import sidebar component
 import SidebarMenu from "../../../components/SidebarMenu.vue";
+import { useAuthUser } from "../../../composables/auth/useAuthUser";
+const user = useAuthUser();
 </script>
 
 <template>
@@ -12,7 +14,9 @@ import SidebarMenu from "../../../components/SidebarMenu.vue";
       <div class="col-md-9">
         <div class="card border-0 rounded-4 shadow-sm">
           <div class="card-header">Dashboard</div>
-          <div class="card-body">Selamat Datang, <strong></strong></div>
+          <div class="card-body">
+            Selamat Datang, <strong>{{ user?.name }}</strong>
+          </div>
         </div>
       </div>
     </div>
