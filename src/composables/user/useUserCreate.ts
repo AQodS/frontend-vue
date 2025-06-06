@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/vue-query";
-import Api from "../../services/api";
+import API from "../../services/api";
 import Cookies from "js-cookie";
 
 //interface UserRequest
@@ -18,7 +18,7 @@ export const useUserCreate = () => {
       const token = Cookies.get("token");
 
       //menggunakan service API untuk register
-      const response = await Api.post("/api/users", data, {
+      const response = await API.post("/api/users", data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

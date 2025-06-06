@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/vue-query";
-import Api from "../../services/api";
+import API from "../../services/api";
 import Cookies from "js-cookie";
 
 //interface User
@@ -22,7 +22,7 @@ export const useUserById = (id: number) => {
       const token = Cookies.get("token");
 
       //get user by id from api
-      const response = await Api.get(`/api/users/${id}`, {
+      const response = await API.get(`/api/users/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
