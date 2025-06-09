@@ -7,23 +7,36 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "home",
-    component: () => import("../views/home/index.vue"),
+    component: () =>
+      import(/* webpackChunkName: "home" */ "../views/home/index.vue"),
   },
   {
     path: "/register",
     name: "register",
-    component: () => import("../views/auth/register.vue"),
+    component: () =>
+      import(/* webpackChunkName: "register" */ "../views/auth/register.vue"),
   },
   {
     path: "/login",
     name: "login",
-    component: () => import("../views/auth/login.vue"),
+    component: () =>
+      import(/* webpackChunkName: "login" */ "../views/auth/login.vue"),
   },
   {
     path: "/admin/dashboard",
     name: "dashboard",
-    component: () => import("../views/admin/dashboard/index.vue"),
-    meta: { requiresAuth: true },
+    component: () =>
+      import(
+        /* webpackChunkName: "home" */ "../views/admin/dashboard/index.vue"
+      ),
+    meta: { requiresAuth: true }, // <-- Add meta field
+  },
+  {
+    path: "/admin/users",
+    name: "admin.users.index",
+    component: () =>
+      import(/* webpackChunkName: "home" */ "../views/admin/users/index.vue"),
+    meta: { requiresAuth: true }, // <-- Add meta field
   },
 ];
 
