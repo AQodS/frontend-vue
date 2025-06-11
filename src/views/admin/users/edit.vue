@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import { ref, reactive } from "vue";
-import { useRouter } from "vue-router";
+import { ref, reactive, watchEffect } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import SidebarMenu from "../../../components/SidebarMenu.vue";
-import { useUserCreate } from "../../../composables/user/useUserCreate";
+import { useUserById } from "../../../composables/user/useUserById";
+import { useUserUpdate } from "../../../composables/user/useUserUpdate";
 
+// inisialisasi route dan router
+const route = useRoute();
 const router = useRouter();
+
+// Ambil ID dari route param
+const id = Number(route.params.id);
 
 // Form state
 const name = ref<string>("");
@@ -15,20 +21,35 @@ const password = ref<string>("");
 // Validation errors
 const errors = reactive<Record<string, string>>({});
 
+// Fetch user by ID
+const { data: user } = useUserById(id);
+
+// Isi form dari data user
+watchEffect(() => {
+  if (user.value) {
+    name.value = user.value.name;
+    username.value = user.value.username;
+    email.value = user.value.email;
+  }
+});
+
 // Mutation
-const { mutate, isPending } = useUserCreate();
+const { mutate, isPending } = useUserUpdate();
 
 // Handle form submit
-const storeUser = (e: Event) => {
+const updateUser = (e: Event) => {
   e.preventDefault();
 
-  // Call user create mutation
+  // Call user update mutation
   mutate(
     {
-      name: name.value,
-      username: username.value,
-      email: email.value,
-      password: password.value,
+      id,
+      data: {
+        name: name.value,
+        username: username.value,
+        email: email.value,
+        password: password.value,
+      },
     },
     {
       onSuccess: () => {
@@ -52,9 +73,9 @@ const storeUser = (e: Event) => {
       </div>
       <div class="col-md-9">
         <div class="card border-0 rounded-4 shadow-sm">
-          <div class="card-header">Add User</div>
+          <div class="card-header">Edit User</div>
           <div class="card-body">
-            <form @submit="storeUser">
+            <form @submit="updateUser">
               <div class="form-group mb-3">
                 <label class="mb-1 fw-bold">Full Name</label>
                 <input
@@ -63,7 +84,10 @@ const storeUser = (e: Event) => {
                   class="form-control"
                   placeholder="Full Name"
                 />
-                <div v-if="errors.Name" class="text-danger p-2">
+                <div
+                  v-if="errors.Name"
+                  class="alert alert-danger mt-2 rounded-4"
+                >
                   {{ errors.Name }}
                 </div>
               </div>
@@ -76,7 +100,10 @@ const storeUser = (e: Event) => {
                   class="form-control"
                   placeholder="Username"
                 />
-                <div v-if="errors.Username" class="text-danger p-2">
+                <div
+                  v-if="errors.Username"
+                  class="alert alert-danger mt-2 rounded-4"
+                >
                   {{ errors.Username }}
                 </div>
               </div>
@@ -89,7 +116,10 @@ const storeUser = (e: Event) => {
                   class="form-control"
                   placeholder="Email Address"
                 />
-                <div v-if="errors.Email" class="text-danger p-2">
+                <div
+                  v-if="errors.Email"
+                  class="alert alert-danger mt-2 rounded-4"
+                >
                   {{ errors.Email }}
                 </div>
               </div>
@@ -102,7 +132,10 @@ const storeUser = (e: Event) => {
                   class="form-control"
                   placeholder="Password"
                 />
-                <div v-if="errors.Password" class="text-danger p-2">
+                <div
+                  v-if="errors.Password"
+                  class="alert alert-danger mt-2 rounded-4"
+                >
                   {{ errors.Password }}
                 </div>
               </div>
@@ -112,7 +145,7 @@ const storeUser = (e: Event) => {
                 class="btn btn-md btn-primary rounded-4 shadow-sm border-0"
                 :disabled="isPending"
               >
-                {{ isPending ? "Saving..." : "Save" }}
+                {{ isPending ? "Updating..." : "Update" }}
               </button>
 
               <router-link

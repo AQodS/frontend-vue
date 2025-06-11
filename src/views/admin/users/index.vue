@@ -1,7 +1,23 @@
 <script setup lang="ts">
+import { useQueryClient } from "@tanstack/vue-query";
 import { useUsers } from "../../../composables/user/useUsers";
+import { useUserDelete } from "../../../composables/user/useUserDelete";
 import SidebarMenu from "../../../components/SidebarMenu.vue";
 const { data: users, isLoading, isError, error } = useUsers();
+const queryClient = useQueryClient();
+const { mutate, isPending } = useUserDelete();
+
+const handleDelete = (id: number) => {
+  if (confirm("Are you sure you want to delete this user?")) {
+    // Call delete user mutation
+    mutate(id, {
+      onSuccess: () => {
+        // Invalidate users query to refresh the list
+        queryClient.invalidateQueries({ queryKey: ["users"] });
+      },
+    });
+  }
+};
 </script>
 
 <template>
@@ -15,7 +31,7 @@ const { data: users, isLoading, isError, error } = useUsers();
           <div
             class="card-header d-flex justify-content-between align-items-center"
           >
-            <span>User</span>
+            <span>Users</span>
             <router-link
               to="/admin/users/create"
               class="btn btn-sm btn-success rounded-4 shadow-sm border-0"
@@ -54,9 +70,11 @@ const { data: users, isLoading, isError, error } = useUsers();
                       Edit
                     </router-link>
                     <button
+                      @click="handleDelete(user.id)"
+                      :disabled="isPending"
                       class="btn btn-sm btn-danger rounded-4 shadow-sm border-0"
                     >
-                      Delete
+                      {{ isPending ? "Deleting..." : "Delete" }}
                     </button>
                   </td>
                 </tr>
