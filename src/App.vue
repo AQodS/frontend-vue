@@ -4,7 +4,7 @@
   <div>
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
       <div class="container">
-        <router-link to="{ name: 'home' }" class="navbar-brand">
+        <router-link :to="{ name: 'home' }" class="navbar-brand">
           Home
         </router-link>
         <button
@@ -22,7 +22,7 @@
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a
-                href="#"
+                href="/"
                 target="_blank"
                 class="nav-link active"
                 aria-current="page"

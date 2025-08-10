@@ -1,10 +1,8 @@
 import axios from "axios";
 
-const PORT = 3000;
-
 const API = axios.create({
   // set default endpoint
-  baseURL: `https://localhost:${PORT}`,
+  baseURL: import.meta.env.VITE_APP_BACKEND_URL,
 });
 
 export default API;
